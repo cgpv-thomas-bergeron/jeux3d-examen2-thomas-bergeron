@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(DetecteurBoule))]
@@ -11,9 +13,35 @@ public class Surface : MonoBehaviour
     [SerializeField, Tooltip("Positions de génération des objets sur la surface.")]
     private Vector3[] positionGeneration;
 
+    private Animator animator;
+
     private void Awake()
     {
         Detecteur = GetComponent<DetecteurBoule>();
+        animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        GestionnairePause.Instance.pauseAnimation += MettreEnPause;
+        if (ControleurJeu.Instance.pause)
+        {
+            animator.SetTrigger("Bouger");
+        }
+        else
+        {
+            animator.SetTrigger("Pause");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        GestionnairePause.Instance.pauseAnimation -= MettreEnPause;
+    }
+
+    private void Update()
+    {
+
     }
 
     /// <summary>
@@ -42,5 +70,29 @@ public class Surface : MonoBehaviour
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(transform.position + position, 0.2f);
         }
+    }
+
+    private void MettreEnPause(float tempsPause)
+    {
+        Debug.Log("test");
+
+        ControleurJeu.Instance.pause = false;
+        animator.SetTrigger("Pause");
+
+        StartCoroutine(TempsPause(tempsPause));
+    }
+
+    private IEnumerator TempsPause(float duree)
+    {
+        float tempsEcoule = 0;
+
+        while (tempsEcoule < duree)
+        {
+            tempsEcoule += Time.deltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+        Debug.Log("test");
+        ControleurJeu.Instance.pause = true;
+        animator.SetTrigger("Bouger");
     }
 }

@@ -14,6 +14,8 @@ public class ControleurJeu : MonoBehaviour
     [field:SerializeField, Tooltip("Référence aux contrôles du joueur.")]
     public PlayerInput Controles { get; private set; }
 
+    public bool pause;
+
     private void Awake()
     {
         if(Instance == null)
@@ -24,5 +26,7 @@ public class ControleurJeu : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        pause = true;
     }
 }

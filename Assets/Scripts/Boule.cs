@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,6 +37,8 @@ public class Boule : MonoBehaviour
     /// Obtient la vélocité actuelle de la boule.
     /// </summary>
     public Vector3 Velocite => rigidbody.linearVelocity;
+
+    private int nombrePiece;
 
     private void Start()
     {
@@ -112,6 +115,16 @@ public class Boule : MonoBehaviour
     public void AjouterChargeAcceleration()
     {
         gestionnaireCharge.AjouterCharge();
+    }
+
+    public void ajouterPiece()
+    {
+        nombrePiece++;
+    }
+
+    public int getNombrePieces()
+    {
+        return nombrePiece;
     }
 
     private void UtiliserChargeAcceleration(InputAction.CallbackContext contexte)

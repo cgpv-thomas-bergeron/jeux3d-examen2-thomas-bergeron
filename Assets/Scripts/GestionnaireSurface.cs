@@ -61,6 +61,9 @@ public class GestionnaireSurface : MonoBehaviour
     // Nombre de surfaces instanciées 
     public int SurfacesParcourues { get; private set; }
 
+    [SerializeField]
+    private AnimationClip anim;
+
     private void Awake()
     {
         surfaces = new Queue<Surface>();
